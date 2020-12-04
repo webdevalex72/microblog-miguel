@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action="" method="POST" novalidate>
+        <!--
+            Атрибут novalidate используется для указания веб-браузеру 
+            не применять проверку к полям в этой форме, что фактически 
+            оставляет эту задачу приложению Flask, запущенному на сервере. 
+            Использование novalidate является полностью необязательным, 
+            но для этой первой формы важно, чтобы вы установили его, 
+            потому что это позволит вам протестировать проверку на 
+            стороне сервера позже в этой главе
+        -->
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }} <br>
+            {{ form.username(size=32) }} <br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <!--
+            Для полей, которым требуются дополнительные атрибуты HTML, 
+            они могут быть переданы в качестве аргументов. Поля username 
+            и Password в этом шаблоне принимают size размер в качестве аргумента, 
+            который будет добавлен в HTML-элемент <input> в качестве атрибута. 
+            Таким образом можно также присоединять классы CSS или идентификаторы к полям формы.
+        -->
+        <p>
+            {{ form.password.label }} <br>
+            {{ form.password(size=32) }} <br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.remember_me() }} {{ form.remember_me.label }}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+    <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+    {% endblock %}

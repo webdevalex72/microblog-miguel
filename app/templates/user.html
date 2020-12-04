@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+             <img src="{{ user.avatar(128) }}" class="card-img-top" alt="avatar">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">User: {{ user.username }}</h5>
+                <hr>
+                {% for post in posts %}
+                <p class="card-text"><img class="card-img" src="{{ post.author.avatar(36) }}">{{ post.author.username }} says:<br>{{ post.body }}
+                </p>
+                {% endfor %}
+            </div>
+        </div>   
+    </div>
+   
+    
+</div>
+-->
+
+<table>
+    <tr valign="top">
+        <td><img src="{{ user.avatar(128) }}"></td>
+        <td>
+            <h1>User: {{ user.username }}</h1>
+            {% if user.about_me %} <p>{{ user.about_me }}</p> {% endif %}
+            {% if user.last_seen %} <p>Last seen on: {{ user.last_seen }}</p> {% endif %}
+            <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
+            {% if user == current_user %}
+            <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+            {% elif not current_user.is_following(user) %}
+            <p><a href="{{ url_for('follow', username=user.username) }}">Follow</a></p>
+            {% else %}
+            <p><a href="{{ url_for('unfollow', username=user.username) }}">Unfollow</a></p>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<hr>
+
+{% for post in posts %}
+    {% include "_post.html"%}
+{% endfor %}
+
+{% endblock %}
