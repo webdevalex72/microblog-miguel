@@ -1,0 +1,48 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+alembic = "*"
+astroid = "*"
+autopep8 = "*"
+Bootstrap-Flask = "*"
+click = "*"
+dnspython = "*"
+email-validator = "*"
+Flask = "*"
+Flask-Login = "*"
+Flask-Migrate = "*"
+Flask-Moment = "*"
+Flask-SQLAlchemy = "*"
+Flask-WTF = "*"
+idna = "*"
+isort = "*"
+itsdangerous = "*"
+Jinja2 = "*"
+lazy-object-proxy = "*"
+Mako = "*"
+MarkupSafe = "*"
+mccabe = "*"
+pycodestyle = "*"
+pyflakes = "*"
+pylint = "*"
+pylint-flask = "*"
+pylint-flask-sqlalchemy = "*"
+pylint-plugin-utils = "*"
+python-dateutil = "*"
+python-dotenv = "*"
+python-editor = "*"
+six = "*"
+SQLAlchemy = "*"
+toml = "*"
+Werkzeug = "*"
+wrapt = "*"
+WTForms = "*"
+
+[dev-packages]
+flake8 = "*"
+
+[requires]
+python_version = "3.8"
