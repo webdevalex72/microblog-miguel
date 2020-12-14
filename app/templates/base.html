@@ -42,6 +42,7 @@
                 </li>-->
                 {{ render_nav_item('logout', 'Logout', use_li=True) }}
                 {{ render_nav_item('user', 'Profile', use_li=True, username=current_user.username)}}
+                {{ render_nav_item('explore', 'Explore', use_li=True) }}
                 {% endif %}
                 {{ render_nav_item('about', 'About', use_li=True) }}
             </ul>

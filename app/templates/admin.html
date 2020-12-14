@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hello, {{ current_user.username }}!</h1>
+    <p>This is Admin Page.</p>
+
+<h3>Registrated Users</h3>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Num.Posts</th>
+
+        </tr>
+      </thead>
+      {% for user in users %}
+      <tr>
+          <th>{{ user.id }}</th>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email}}</td>
+          <td>{{ user.posts.count()}}</td>
+      </tr>
+      {% endfor %}
+      <tbody>
+    </tbody>
+</table>
+
+    {% endblock %}
