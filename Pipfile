@@ -40,6 +40,8 @@ toml = "*"
 Werkzeug = "*"
 wrapt = "*"
 WTForms = "*"
+flask-mail = "*"
+pyjwt = "*"
 
 [dev-packages]
 flake8 = "*"
