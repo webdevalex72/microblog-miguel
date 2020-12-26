@@ -42,6 +42,7 @@ wrapt = "*"
 WTForms = "*"
 flask-mail = "*"
 pyjwt = "*"
+flask-babel = "*"
 
 [dev-packages]
 flake8 = "*"

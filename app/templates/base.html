@@ -8,7 +8,7 @@
     {% if title %}
         <title>{{ title }} - Microblog</title>
     {% else %}
-        <title>Welcome to Microblog!</title>
+        <title>{{ _('Welcome to Microblog!') }}</title>
     {% endif %}
     
     {% block styles %}
@@ -29,22 +29,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('index') }}">{{ _('Home') }} <span class="sr-only">(current)</span></a>
                 </li>
                 {% if current_user.is_anonymous %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    <a class="nav-link" href="{{ url_for('login') }}">{{ _('Login') }}</a>
                 </li>
                 {% else %}
                 <!--
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>-->
-                {{ render_nav_item('logout', 'Logout', use_li=True) }}
-                {{ render_nav_item('user', 'Profile', use_li=True, username=current_user.username)}}
-                {{ render_nav_item('explore', 'Explore', use_li=True) }}
+                {{ render_nav_item('logout', _('Logout'), use_li=True) }}
+                {{ render_nav_item('user', _('Profile'), use_li=True, username=current_user.username)}}
+                {{ render_nav_item('explore', _('Explore'), use_li=True) }}
                 {% endif %}
-                {{ render_nav_item('about', 'About', use_li=True) }}
+                {{ render_nav_item('about', _('About'), use_li=True) }}
             </ul>
         </div>
     </nav>
@@ -92,7 +92,7 @@
     <!--Moment.js-->
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
-    {{ moment.locale("ru") }}
+    {{ moment.lang(g.locale) }}
 {% endblock %}
 </body>
 </html>
