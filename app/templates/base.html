@@ -105,8 +105,9 @@
                 source_language: sourceLang,
                 dest_language: destLang
             }).done(function (response) {
-                //$(destElem).text(response["text"][0]["translations"][0]["text"])
-                $(destElem).text(response["text"])
+                for (var i = 0; i < response.length; i++) {
+                    $(destElem).text(response[i].translations[0].text);
+                }
             }).fail(function () {
                 $(destElem).text("{{ _('Error: Could not contact server.') }}");
             });
