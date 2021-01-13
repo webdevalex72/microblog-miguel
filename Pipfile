@@ -1,4 +1,4 @@
-[[source]]
+ [[source]]
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -43,6 +43,8 @@ WTForms = "*"
 flask-mail = "*"
 pyjwt = "*"
 flask-babel = "*"
+guess-language-spirit = "*"
+requests = "*"
 
 [dev-packages]
 flake8 = "*"
