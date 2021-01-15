@@ -1,5 +1,16 @@
 import os
+from dotenv import load_dotenv
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
+
+
+"""
+Поскольку модуль config.py — это место, где я читаю все переменные среды, 
+то следует импортировать файл .env до создания класса Config, чтобы 
+переменные задавались при построении класса
+"""
 
 
 class Config(object):
@@ -14,6 +25,6 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['web.dev.alex72@gmail.com']
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 25
     LANGUAGES = ['en', 'ru']
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
