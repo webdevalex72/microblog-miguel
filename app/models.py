@@ -6,6 +6,71 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db, login
+from app.search import add_to_index, remove_from_index, query_index
+
+
+class SearchableMixin(object):
+    @classmethod
+    def search(cls, expression, page, per_page):
+        """ query_index возвращает список ID результатов и их общее количество.
+        Функция search() возвращает запрос, который заменяет список идентификаторов, 
+        а также передает общее количество результатов поиска в качестве второго 
+        возвращаемого значения.
+         """
+        ids, total = query_index(cls.__tablename__, expression, page, per_page)
+        if total == 0:
+            return cls.query.filter_by(id=0), 0
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        return cls.query.filter(cls.id.in_(ids)).order_by(
+            db.case(when, value=cls.id)), total
+
+    @classmethod
+    def before_commit(cls, session):
+        session._changes = {
+            'add': list(session.new),
+            'update': list(session.dirty),
+            'delete': list(session.deleted)
+        }
+
+    @classmethod
+    def after_commit(cls, session):
+        for obj in session._changes['add']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['delete']:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj.__tablename__, obj)
+        session._changes = None
+
+    @classmethod
+    def reindex(cls):
+        """ Я могу использовать метод reindex() для инициализации 
+        индекса из всех сообщений, находящихся в настоящее время 
+        в базе данных: >>> Post.reindex()"""
+        for obj in cls.query:
+            add_to_index(cls.__tablename__, obj)
+
+"""" Обратите внимание, что вызовы db.event.listen() не входят в класс, 
+а следуют после него. Они устанавливают обработчики событий, которые 
+вызывают before и after для каждой фиксации. Теперь модель Post 
+автоматически поддерживает индекс полнотекстового поиска для сообщений."""
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
+
+
+"""
+Обратите внимание, как я переименовал аргумент self, используемый в обычных 
+методах экземпляра, для cls, чтобы было ясно, что этот метод получает в 
+качестве первого аргумента класс, а не экземпляр. Например, при подключении 
+к модели Post, метод search() выше будет вызываться как Post.search(), 
+не имея фактического экземпляра класса Post.
+"""
 
 
 followers = db.Table(
@@ -82,7 +147,8 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-class Post(db.Model):
+class Post(SearchableMixin, db.Model):
+    __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

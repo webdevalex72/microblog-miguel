@@ -22,7 +22,7 @@
 
 <body>
     <!--Navbar bootstrap4-->
-    <nav class="navbar navbar-expand-lg navbar-dark  bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">Microblog:</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,20 +34,25 @@
                     <a class="nav-link" href="{{ url_for('main.index') }}">{{ _('Home') }} <span
                             class="sr-only">(current)</span></a>
                 </li>
+                {{ render_nav_item('main.explore', _('Explore'), use_li=True) }}
+                {{ render_nav_item('main.about', _('About'), use_li=True) }}
+            </ul>
+            {% if g.search_form %}
+            <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
+                <div class="form-group">
+                    {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+                </div>
+            </form>
+            {% endif %}
+            <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_anonymous %}
-                <li class="nav-item">
+                <li class=" nav-item">
                     <a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a>
                 </li>
                 {% else %}
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
-                </li>-->
-                {{ render_nav_item('auth.logout', _('Logout'), use_li=True) }}
                 {{ render_nav_item('main.user', _('Profile'), use_li=True, username=current_user.username)}}
-                {{ render_nav_item('main.explore', _('Explore'), use_li=True) }}
+                {{ render_nav_item('auth.logout', _('Logout'), use_li=True) }}
                 {% endif %}
-                {{ render_nav_item('main.about', _('About'), use_li=True) }}
             </ul>
         </div>
     </nav>

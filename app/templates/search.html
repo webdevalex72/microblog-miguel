@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>{{ _('Search Results') }}</h1>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% endfor %}
+     <!-- Pagination -->
+     <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item{% if not prev_url %} disabled{% endif %}">
+                <a class="page-link" tabindex="-1" href="{{ prev_url or '#' }}" aria-disabled="{% if not prev_url %}true{% endif %}">
+                    {{_('Newer results')}}
+                </a>
+            </li>
+            <li class="page-item{% if not next_url %} disabled{% endif %}">
+                <a class="page-link" href="{{ next_url or '#' }}" aria-disabled="{% if not next_url %}true{% endif %}">
+                    {{_('Next results')}}
+                </a>
+            </li>
+        </ul>
+    </nav>    
+{% endblock %}
