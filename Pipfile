@@ -46,6 +46,9 @@ flask-babel = "*"
 guess-language-spirit = "*"
 requests = "*"
 elasticsearch = "*"
+gunicorn = "*"
+pymysql = "*"
+cryptography = "*"
 
 [dev-packages]
 flake8 = "*"
