@@ -102,7 +102,7 @@ def edit_profile():
                            form=form)
 
 
-@bp.route('/follow/<username>', methods=['POST'])
+@bp.route('/follow/<username>', methods=['GET','POST'])
 @login_required
 def follow(username):
     form = EmptyForm()
